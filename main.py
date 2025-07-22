@@ -7,7 +7,7 @@ from typing import List, Optional
 
 app = FastAPI()
 
-CONCURRENT_REQUESTS = 100
+CONCURRENT_REQUESTS = 500
 TIMEOUT = aiohttp.ClientTimeout(total=20)
 API_TOKENS = {"marketing-cloud-token": "mc-user"}
 
