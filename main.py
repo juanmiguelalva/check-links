@@ -40,12 +40,24 @@ async def check_link(sem, session, item: LinkItem):
                         "Status": "Link Error"
                     }
         except:
-            return {
-                "Sku": item.Sku,
-                "Pais": item.Pais,
-                "LinkUrl": item.LinkUrl,
-                "Status": "Browser exception Error"
-            }
+            try:
+                async with session.get(url, allow_redirects=True, timeout=TIMEOUT) as response:
+                    if response.status >= 400:
+                        return {
+                            "Sku": item.Sku,
+                            "Pais": item.Pais,
+                            "LinkUrl": item.LinkUrl,
+                            "Status": "Link Error"
+                        }
+                    else:
+                        return None
+            except:
+                return {
+                    "Sku": item.Sku,
+                    "Pais": item.Pais,
+                    "LinkUrl": item.LinkUrl,
+                    "Status": "Browser exception Error"
+                }
     return None
 
 async def get_broken_links_async(items: List[LinkItem]):
